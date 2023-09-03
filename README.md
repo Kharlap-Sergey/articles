@@ -1,2 +1,2 @@
-# Articals
+# Articles
 Repo for code samples 
