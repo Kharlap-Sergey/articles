@@ -2,6 +2,7 @@
 
 /// <summary>
 /// Used to create TOptions instances
+/// tenanted alternative for <see cref="IOptionsFactory{TOptions}"/>
 /// </summary>
 /// <typeparam name="TOptions">The type of options being requested.</typeparam>
 public interface ITenantedOptionsFactory<TOptions>
