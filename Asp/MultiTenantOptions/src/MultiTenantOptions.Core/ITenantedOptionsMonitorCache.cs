@@ -1,5 +1,9 @@
 ﻿namespace TenantedOptions.Core;
 
+/// <summary>
+/// Used by <see cref="TenantedOptionsMonitor{TOptions}"/> to cache <typeparamref name="TOptions"/> instances.
+/// </summary>
+/// <typeparam name="TOptions">The type of options being requested.</typeparam>
 public interface ITenantedOptionsMonitorCache<TOptions>
 {
     void Clear();

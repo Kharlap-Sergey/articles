@@ -2,6 +2,12 @@
 
 namespace TenantedOptions.Core;
 
+/// <summary>
+/// Implementation of <see cref="ITenantedOptionsMonitorCache{TOptions}"/>.
+/// this implementation based on <see cref=OptionsCache{TOptions}"/>
+/// it is cache were value is a cache <see cref="IOptionsMonitorCache{TOptions}"/>
+/// </summary>
+/// <typeparam name="TOptions">Options type.</typeparam>
 public class TenantedOptionsMonitorCache<TOptions> : ITenantedOptionsMonitorCache<TOptions>
     where TOptions : class
 {

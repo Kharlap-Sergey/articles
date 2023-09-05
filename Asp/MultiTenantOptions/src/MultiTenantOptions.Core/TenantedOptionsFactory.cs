@@ -2,6 +2,12 @@
 
 namespace TenantedOptions.Core;
 
+/// <summary>
+/// Implementation of <see cref="ITenantedOptionsFactory{TOptions}"/>.
+/// code is copright of <see cref=OptionsFactory{TOptions}"/>
+/// </summary>
+/// <typeparam name="TTenantProvider">Type of a tenant provider.</typeparam>
+/// <typeparam name="TOptions">Options type.</typeparam>
 public class TenantedOptionsFactory<TOptions> : ITenantedOptionsFactory<TOptions>
     where TOptions : class, new()
 {
@@ -36,6 +42,9 @@ public class TenantedOptionsFactory<TOptions> : ITenantedOptionsFactory<TOptions
         _validations = validations as IValidateOptions<TOptions>[] ?? new List<IValidateOptions<TOptions>>(validations).ToArray();
     }
 
+    /// <summary>
+    /// Returns a configured <typeparamref name="TOptions"/> instance with the given <paramref name="name"/> and <paramref name="tenant"/>.
+    /// </summary>
     public TOptions Create(string name, string tenant)
     {
         TOptions options = CreateInstance(name);
