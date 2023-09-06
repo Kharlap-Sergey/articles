@@ -13,7 +13,7 @@ public static class AuthTenantOptionsServiceCollectionExtensions
         services.AddOptions();
 
         services.TryAdd(ServiceDescriptor.Singleton(typeof(ITenantProvider), typeof(TTenantProvider)));
-        services.TryAdd(ServiceDescriptor.Singleton(typeof(IOptionsMonitor<TOptions>), typeof(TenantedOptionsMonitor<TTenantProvider, TOptions>)));
+        services.TryAdd(ServiceDescriptor.Singleton(typeof(IOptionsMonitor<TOptions>), typeof(TenantedOptionsMonitor<TOptions>)));
         services.TryAdd(ServiceDescriptor.Transient(typeof(ITenantedOptionsFactory<TOptions>), typeof(TenantedOptionsFactory<TOptions>)));
         services.TryAdd(ServiceDescriptor.Singleton(typeof(ITenantedOptionsMonitorCache<>), typeof(TenantedOptionsMonitorCache<>)));
 

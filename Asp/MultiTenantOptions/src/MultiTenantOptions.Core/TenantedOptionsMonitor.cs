@@ -7,21 +7,19 @@ namespace TenantedOptions.Core;
 /// Implementation of <see cref="IOptionsMonitor{TOptions}"/>.
 /// code is copright of <see cref=OptionsMonitor{TOptions}"/>
 /// </summary>
-/// <typeparam name="TTenantProvider">Type of a tenant provider.</typeparam>
 /// <typeparam name="TOptions">Options type.</typeparam>
-public class TenantedOptionsMonitor<TTenantProvider, TOptions> : IOptionsMonitor<TOptions>, IDisposable
+public class TenantedOptionsMonitor<TOptions> : IOptionsMonitor<TOptions>, IDisposable
    where TOptions : class
-   where TTenantProvider : ITenantProvider
 {
     private readonly ITenantedOptionsFactory<TOptions> _factory;
-    private readonly TTenantProvider _tenantProvider;
+    private readonly ITenantProvider _tenantProvider;
     private readonly ITenantedOptionsMonitorCache<TOptions> _cache;
 
     private readonly List<IDisposable> _registrations = new List<IDisposable>();
     internal event Action<TOptions, string> _onChange;
 
     public TenantedOptionsMonitor(
-        TTenantProvider tenantProvider,
+        ITenantProvider tenantProvider,
         ITenantedOptionsFactory<TOptions> factory,
         ITenantedOptionsMonitorCache<TOptions> cache,
         IEnumerable<IOptionsChangeTokenSource<TOptions>> sources
@@ -115,9 +113,9 @@ public class TenantedOptionsMonitor<TTenantProvider, TOptions> : IOptionsMonitor
     internal sealed class ChangeTrackerDisposable: IDisposable
     {
         private readonly Action<TOptions, string> _listener;
-        private readonly TenantedOptionsMonitor<TTenantProvider, TOptions> _monitor;
+        private readonly TenantedOptionsMonitor<TOptions> _monitor;
 
-        public ChangeTrackerDisposable(TenantedOptionsMonitor<TTenantProvider, TOptions> monitor, Action<TOptions, string> listener)
+        public ChangeTrackerDisposable(TenantedOptionsMonitor<TOptions> monitor, Action<TOptions, string> listener)
         {
             _listener = listener;
             _monitor = monitor;

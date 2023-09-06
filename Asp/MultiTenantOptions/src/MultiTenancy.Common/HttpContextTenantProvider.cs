@@ -1,12 +1,13 @@
-﻿using TenantedOptions.Core;
+﻿using Microsoft.AspNetCore.Http;
+using TenantedOptions.Core;
 
 namespace TestApplication.Multitenancy;
 
-public class TenantProvider : ITenantProvider
+public class HttpContextTenantProvider : ITenantProvider
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public TenantProvider(IHttpContextAccessor httpContextAccessor)
+    public HttpContextTenantProvider(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
     }
