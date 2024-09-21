@@ -1,5 +1,5 @@
 # Articles
-
+Welcome to my writer attempts! 
 #
 ### [My CI/CD story!? Part 1](https://medium.com/@sergeygoodgood/my-ci-cd-story-part-1-0f7eb907bf6d?sk=daa579addc9247559ca43ad4f2394bfd)
 Dive into the DevOps world through the route of CI/CD together with me.
