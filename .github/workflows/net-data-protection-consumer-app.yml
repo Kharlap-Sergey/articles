@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{inputs.registry}}/${{ github.repository }}/net-data-protection-consumer-app
+          images: ${{inputs.registry}}/${{ github.repository }
           tags: |
              type=raw,value=v-{{branch}}{{base_ref}}-${{github.run_id}}-{{sha}},suffix=-${{github.run_number}}-${{github.run_attempt}}
              
