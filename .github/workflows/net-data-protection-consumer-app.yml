@@ -12,6 +12,9 @@ on:
 jobs:
   build_image:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -27,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{inputs.registry}}/${{ github.repository }}
+          images: ${{inputs.registry}}/${{ github.repository }}/net-data-protection-consumer-app
           tags: |
              type=raw,value=v-{{branch}}{{base_ref}}-${{github.run_id}}-{{sha}},suffix=-${{github.run_number}}-${{github.run_attempt}}
              
