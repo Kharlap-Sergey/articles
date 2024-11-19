@@ -1,10 +1,48 @@
 name: Build Data Protection Consumer App
 
 on: 
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      registry:
+        required: false
+        default: ghcr.io/Kharlap-Sergey/articles
+        description: "where to push"
+        type: string
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "test"
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{inputs.registry}}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }} 
+          
+      - name: Get docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{inputs.registry}}/net-data-protection-consumer-app
+          tags: |
+             type=raw,value=v-{{branch}}{{base_ref}}-${{github.run_id}}-{{sha}},suffix=-${{github.run_number}}-${{github.run_attempt}}
+             
+      - name: Print meta lables
+        run: echo "${{ steps.meta.outputs.labels }}"
+      - name: Print meta tags.
+        run: echo "${{ steps.meta.outputs.tags }}"
+      - name: Print meta version.
+        run: echo "${{ steps.meta.outputs.version }}"
+        
+      - name: Build and push Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: ./Asp/DataProtectionOnK8s
+          file: ./Asp/DataProtectionOnK8s/App/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
