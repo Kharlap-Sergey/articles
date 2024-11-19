@@ -5,12 +5,12 @@ on:
     inputs:
       registry:
         required: false
-        default: ghcr.io/Kharlap-Sergey/articles
+        default: ghcr.io
         description: "where to push"
         type: string
 
 jobs:
-  test:
+  build_image:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -19,7 +19,7 @@ jobs:
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
         with:
-          registry: ${{inputs.registry}}
+          registry: ${{inputs.registry}}/${{ github.repository }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }} 
           
@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{inputs.registry}}/net-data-protection-consumer-app
+          images: ${{inputs.registry}}/${{ github.repository }}/net-data-protection-consumer-app
           tags: |
              type=raw,value=v-{{branch}}{{base_ref}}-${{github.run_id}}-{{sha}},suffix=-${{github.run_number}}-${{github.run_attempt}}
              
