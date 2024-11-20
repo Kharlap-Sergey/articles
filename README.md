@@ -1,7 +1,13 @@
 # Articles
 Welcome to my writer attempts! 
 #
-### [My CI/CD story!? Part 1](https://medium.com/@sergeygoodgood/my-ci-cd-story-part-1-0f7eb907bf6d?sk=daa579addc9247559ca43ad4f2394bfd)
+### [Asp Net Core Data Protection: On k8s setup](https://medium.com/@sergeygoodgood/asp-net-core-data-protection-on-k8s-setup-7c7d30440cc1)
+One interesting approach that occurred to me on how to handle ASP.NETCore Data Protection Keys.
+
+[Code sample for the story](Asp/DataProtectionOnK8s)
+
+#
+### [My CI/CD story!? Part 1 — ‘Safly’ Publish Docker Image with GitHub Actions](https://medium.com/@sergeygoodgood/my-ci-cd-story-part-1-0f7eb907bf6d?sk=daa579addc9247559ca43ad4f2394bfd)
 Dive into the DevOps world through the route of CI/CD together with me.
 
 [Code sample for the story](https://github.com/Kharlap-Sergey/cicd-story)
