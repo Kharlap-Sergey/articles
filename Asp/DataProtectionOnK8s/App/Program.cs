@@ -13,8 +13,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDataProtection()
     .SetApplicationName(builder.Configuration["ApplicationName"])
-    //.DisableAutomaticKeyGeneration()
-    .PersistKeysToFileSystem(new DirectoryInfo(builder.Configuration["dpkeys"]));
+    .DisableAutomaticKeyGeneration()
+    .PersistKeysToFileSystem(
+        new DirectoryInfo(builder.Configuration["dpkeys"] 
+         ?? throw new ArgumentNullException("Data protection keys weren't provided, check dpkeys config value"))
+    );
 
 var app = builder.Build();
 
