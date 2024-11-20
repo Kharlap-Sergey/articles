@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.KeyManagement.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,8 +21,9 @@ builder.Services.AddDataProtection()
 
 var app = builder.Build();
 
+//var keyManager = app.Services.GetRequiredService<IKeyManager>();
+//keyManager.RevokeAllKeys(DateTime.UtcNow);
 var keyRingProvider = app.Services.GetRequiredService<IKeyRingProvider>();
-
 //triggers keys retrieval and rotation mechanisms
 keyRingProvider.GetCurrentKeyRing();
 
