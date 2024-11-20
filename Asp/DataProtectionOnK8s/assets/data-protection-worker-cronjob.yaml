@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: data-protection-worker
+  labels:
+    app.kubernetes.io/name: data-protection-worker
+spec:
+  schedule: "0 12 * * *" # every day at 12:00
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: data-protection-worker-sa
+          containers:
+            - name: worker
+              image: ghcr.io/kharlap-sergey/articles/net-data-protection-utility:v-data-protection-on-k8s-11934848702-4cb0105-1-1
+              imagePullPolicy: IfNotPresent
+              command: ["sh", "-c"] 
+              args: 
+                - | 
+                  echo "Updating specific secret..." 
+
+                  mkdir -p /app/keys
+                  if [ -d "/app/origin-keys" ]; then
+                    echo "Kyes exist:"
+                    ls -r /app/origin-keys/
+                    cp /app/origin-keys/* /app/keys/
+                  else
+                    echo "No keys exisst."
+                  fi
+
+                  dotnet Utility.dll --dpkeys=/app/keys
+                  echo "Current keys:"
+                  ls -r /app/keys/
+
+                  kubectl create secret generic data-protection-keys --dry-run=client --from-file /app/keys -o yaml | kubectl apply -f -
+              env:
+               - name: dpKeysLifetime
+                 value: "365"
+              volumeMounts:
+                - name: data-protection-keys
+                  mountPath: /app/origin-keys
+                  readOnly: true
+            
+          restartPolicy: Never
+          volumes:
+            - name: data-protection-keys
+              secret:
+                secretName: data-protection-keys
+
+      backoffLimit: 3

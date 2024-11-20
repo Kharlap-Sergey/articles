@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: data-protection-worker-sa
+automountServiceAccountToken: true
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: data-protection-keys-secret-editor-role
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  resourceNames: ["data-protection-keys"]
+  verbs: ["get", "update", "patch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: data-protection-keys-secret-editor-editor-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: data-protection-worker-sa
+roleRef:
+  kind: Role
+  name: data-protection-keys-secret-editor-role
+  apiGroup: rbac.authorization.k8s.io

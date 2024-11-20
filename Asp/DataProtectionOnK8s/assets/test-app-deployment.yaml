@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-data-protection-app
+  labels:
+    application: test-data-protection-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      application: test-data-protection-app
+  strategy:
+    type: "RollingUpdate"
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        application: test-data-protection-app
+    spec:
+      containers:
+        - name: application
+          image: ghcr.io/kharlap-sergey/articles/net-data-protection-consumer-app:v-data-protection-on-k8s-11921546839-3b829d0-7-1
+          ports:
+            - name: service-http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: data-protection-keys
+              mountPath: /app/keys
+              readOnly: true
+          env:
+            - name: dpkeys
+              value: /app/keys
+            - name: ApplicationName
+              value: testApp
+      volumes:
+        - name: data-protection-keys
+          secret:
+            secretName: data-protection-keys
