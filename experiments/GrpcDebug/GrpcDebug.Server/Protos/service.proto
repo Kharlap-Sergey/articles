@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcDebug.Server";
+
+package greet;
+
+service SimpleService {
+  
+  rpc SimpleStreaming (SimpleRequest) returns (stream SimpleResponse);
+  
+  rpc SimpleStreamingWithBuffer (SimpleRequest) returns (stream SimpleResponse);
+}
+
+message SimpleRequest {
+  int32 count = 1;
+}
+
+message SimpleResponse {
+  string message = 1;
+  string value = 2;
+}
