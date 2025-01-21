@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-builder.Logging.ClearProviders();
 builder.Configuration.AddCommandLine(args);
 
 var type = builder.Configuration["Type"] ?? "plain";
@@ -20,17 +19,16 @@ var count = int.TryParse(builder.Configuration["Count"], out var c) ? c : 100000
 
 Console.WriteLine("Starting client with type: {0}, runs: {1}, repeatsInRun: {2}, parallelRequests: {3}, count: {4}", type, runs, repeatsInRun, parallelRequests, count);
 
-
-builder.Services.AddGrpcClient<SimpleService.SimpleServiceClient>(o =>
-{
-    o.Address = new Uri("http://localhost:5172");
-});
-
 for (int i = 0; i < runs; i++)
 {
     Console.WriteLine("Start run {0}", i);
-    
-    await Run(builder, type, repeatsInRun, parallelRequests, count).ConfigureAwait(false);
+    HostApplicationBuilder localBuilder = Host.CreateApplicationBuilder(args);
+    localBuilder.Logging.ClearProviders();
+    localBuilder.Services.AddGrpcClient<SimpleService.SimpleServiceClient>(o =>
+    {
+        o.Address = new Uri("http://localhost:5172");
+    });
+    await Run(localBuilder, type, repeatsInRun, parallelRequests, count).ConfigureAwait(false);
     await Task.Delay(1000);
 }
 
