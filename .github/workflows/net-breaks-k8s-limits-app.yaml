@@ -1,4 +1,4 @@
-name: Build Data Protection Utility App
+name: Build Net Breaks K8s Limits App
 
 on: 
   workflow_dispatch:
@@ -44,7 +44,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
-          context: ./experiments/NetBreaksK8sLimits/src/SampleApp
+          context: ./experiments/NetBreaksK8sLimits
           file: ./experiments/NetBreaksK8sLimits/src/SampleApp/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
